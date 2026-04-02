@@ -18,6 +18,7 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
 import { AuthModule } from './modules/auth/auth.module'
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard'
 import { RbacGuard } from './modules/auth/guards/rbac.guard'
+import { CompetitionModule } from './modules/competition/competition.module'
 import { HealthModule } from './modules/health/health.module'
 import { NetdiskModule } from './modules/netdisk/netdisk.module'
 import { SseModule } from './modules/sse/sse.module'
@@ -70,6 +71,7 @@ import { SocketModule } from './socket/socket.module'
     // end biz
 
     TodoModule,
+    CompetitionModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: AllExceptionsFilter },
