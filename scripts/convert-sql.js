@@ -1,0 +1,28 @@
+const fs = require('node:fs')
+
+const sql = fs.readFileSync('./deploy/sql/nest_admin.sql', 'utf8')
+
+const pgSql = sql
+  .replace(/SET NAMES utf8mb4;/g, '')
+  .replace(/SET FOREIGN_KEY_CHECKS = 0;/g, '')
+  .replace(/SET FOREIGN_KEY_CHECKS = 1;/g, '')
+  .replace(/int NOT NULL AUTO_INCREMENT/g, 'SERIAL PRIMARY KEY')
+  .replace(/int DEFAULT NULL/g, 'INT')
+  .replace(/int/g, 'INT')
+  .replace(/varchar\([^)]+\) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci/g, 'VARCHAR(255)')
+  .replace(/varchar\([^)]+\) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci/g, 'VARCHAR(255)')
+  .replace(/varchar\([^)]+\) NOT NULL/g, 'VARCHAR(255) NOT NULL')
+  .replace(/datetime\(6\)/g, 'TIMESTAMP')
+  .replace(/CURRENT_TIMESTAMP\(6\)/g, 'CURRENT_TIMESTAMP')
+  .replace(/ ON UPDATE CURRENT_TIMESTAMP/gi, '')
+  .replace(/`/g, '"')
+  .replace(/ ENGINE=InnoDB.*/g, '')
+  .replace(/ ROW_FORMAT=DYNAMIC.*/g, '')
+  .replace(/USING BTREE/g, '')
+  .replace(/AUTO_INCREMENT=\d+/g, '')
+  .replace(/KEY /g, 'KEY ')
+  .replace(/UNIQUE KEY /g, 'UNIQUE KEY ')
+  .replace(/PRIMARY KEY (\([^)]+\))/g, 'PRIMARY KEY $1')
+
+fs.writeFileSync('./deploy/sql/nest_admin_pg.sql', pgSql)
+console.log('Converted to PostgreSQL format')
