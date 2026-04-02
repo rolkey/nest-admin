@@ -76,3 +76,4 @@ __data
 public/upload
 types/env.d.ts
 node-compile-cache/
+pnpm-lock.yaml
